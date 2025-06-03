@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warkop21 - Harga Murah, Porsi Mewah</title>
+    <script src="data ulasan.js"></script>
+    <script src="data ulasan.json"></script>
+    <script src="menu-data.json"></script>
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        overflow-x: hidden; /* Horizontal scrolling fix for small screens */
+      }
+      
+      /* Container */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      header {
+        background-color: #2f3061;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+      }
+      
+      .logo {
+      font-family: 'Pacifico', cursive;; 
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: #fff;
+      }
+      
+      .logo span {
+        color: #ff7c3a;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+      
+      .nav-links li {
+        margin-left: 30px;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-links a:hover {
+        color: #ff7c3a;
+      }
+
+      /* Hamburger Menu Button - Initially hidden on desktop */
+      .mobile-menu-btn {
+        display: none; /* Hidden by default, shown in media query */
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      
+      /* Hero Section */
+      .hero {
+        height: 80vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+      }
+      
+      .hero h1 {
+      font-family: 'Pacifico', cursive;
+        /* font-size: 3.5rem; */ /* Controlled by clamp now */
+        margin-bottom: 20px;
+      }
+      
+      .hero span {
+        color: #ff7c3a;
+      }
+      
+      .hero p {
+        /* font-size: 1.5rem; */ /* Controlled by clamp now */
+        margin-bottom: 30px;
+      }
+      
+      .btn {
+        display: inline-block;
+        background-color: #ff7c3a;
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+      
+      .btn:hover {
+        background-color: #ff5252;
+      }
+      
+      /* About Section */
+      .about {
+        padding: 80px 0;
+      }
+      
+      .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+        /* font-size: 2.5rem; */ /* Controlled by clamp now */
+        color: #333;
+      }
+      
+      .about-content {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      
+      .about-text {
+        flex: 1;
+        min-width: 300px;
+        padding-right: 40px;
+      }
+      
+      .about-text p {
+        margin-bottom: 20px;
+      }
+      
+      .about-image {
+        flex: 1;
+        min-width: 300px;
+      }
+      
+      .about-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Menu Section */
+      .menu {
+        padding: 60px 0;
+        background-color: #f9f9f9;
+      }
+      
+      .menu-categories {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap; /* Allow categories to wrap on smaller screens */
+      }
+      
+      .menu-category {
+        padding: 10px 20px;
+        margin: 0 10px;
+        background-color: #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px; /* Add some space when they wrap */
+      }
+      
+      .menu-category.active {
+        background-color: #ff7c3a;
+        color: white;
+      }
+      
+      .menu-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      
+      .menu-item {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+      
+      .menu-item:hover {
+        transform: translateY(-5px);
+      }
+      
+      .menu-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      
+      .menu-item-info {
+        padding: 15px;
+      }
+      
+      .menu-item-info h3 {
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+      }
+      
+      .menu-item-info p {
+        color: #ff7c3a;
+        font-weight: bold;
+      }
+      
+      /* Dropdown Menu Styling */
+      .menu-group {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+      
+      .menu-group:hover {
+        transform: translateY(-5px);
+      }
+      
+      .menu-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background-color: #f8f8f8;
+        cursor: pointer;
+      }
+      
+      .menu-group-header h3 {
+        font-size: 1.2rem;
+      }
+      
+      .menu-group-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out; /* Use ease-out for smoother closing */
+      }
+      
+      .menu-group.active .menu-group-content {
+        max-height: 1000px; /* Adjust if content is very long */
+        transition: max-height 0.5s ease-in; /* Use ease-in for smoother opening */
+      }
+      
+      .menu-group .dropdown-arrow {
+        transition: transform 0.3s ease;
+      }
+      
+      .menu-group.active .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+      
+      .submenu-item {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #eee;
+      }
+      
+      .submenu-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 15px;
+      }
+      
+      .submenu-item-info {
+        flex: 1;
+      }
+      
+      .submenu-item-info h4 {
+        margin-bottom: 5px;
+      }
+      
+      .submenu-item-info p {
+        color: #ff7c3a;
+        font-weight: bold;
+      }
+      
+      /* Gallery Section */
+      .gallery {
+        padding: 80px 0;
+      }
+      
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+      
+      .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        color: #fff;
+      }
+      
+      /* Reviews Section */
+      .reviews {
+        padding: 60px 0;
+        background-color: #f9f9f9;
+      }
+      
+      .reviews-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      
+      .review {
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .review-rating {
+        color: #ffb100;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+      }
+      
+      .review p {
+        margin-bottom: 15px;
+        font-style: italic;
+      }
+      
+      .review-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #777;
+      }
+      
+      /* Footer */
+      footer {
+        background-color: #222;
+        color: #fff;
+        padding: 60px 0 20px;
+      }
+      
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+      
+      .footer-section h3 {
+        color: #ff7c3a;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+      }
+      
+      .footer-section p {
+        margin-bottom: 10px;
+        color: #bbb;
+      }
+      
+      .social-links {
+        display: flex;
+        margin-top: 20px;
+      }
+      
+      .social-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        background-color: #333;
+        color: #fff;
+        border-radius: 50%;
+        margin-right: 10px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      
+      .social-link:hover {
+        background-color: #ff7c3a;
+      }
+      
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #444;
+        color: #bbb;
+      }
+      
+      /* Scroll to top button */
+      .scroll-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: #ff7c3a;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(100px);
+        transition: all 0.3s ease;
+      }
+      
+      .scroll-top.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Fluid typography for better scaling */
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+      }
+
+      .hero p {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+      }
+
+      .section-title {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+      }
+
+      /* Responsive Design */
+      /* Small devices (phones, 576px and down) */
+      @media screen and (max-width: 576px) {
+        .container {
+          padding: 0 15px;
+        }
+        
+        /* .hero h1 { font-size: 2rem; } /* Covered by clamp */
+        /* .hero p { font-size: 1rem; } /* Covered by clamp */
+        /* .section-title { font-size: 2rem; } /* Covered by clamp */
+        
+        .menu-items,
+        .gallery-grid,
+        .reviews-container {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        
+        .footer-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .gallery-item img {
+          height: 200px;
+        }
+      }
+
+      /* Medium devices (tablets, up to 767px for mobile nav trigger) */
+      @media screen and (max-width: 767px) {
+        .nav-links {
+          position: fixed;
+          top: 60px; /* Adjust based on actual header height */
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 60px); /* Adjust based on actual header height */
+          background-color: #2f3061;
+          flex-direction: column;
+          justify-content: flex-start; /* Align items to the top */
+          align-items: center;
+          padding-top: 50px; /* Space from the top of the menu */
+          transition: left 0.3s ease;
+          z-index: 99; /* Below header */
+        }
+        
+        .nav-links.active {
+          left: 0;
+        }
+        
+        .nav-links li {
+          margin: 20px 0; /* Increased margin for better touch targets */
+        }
+        
+        .mobile-menu-btn {
+          display: block; /* Show hamburger on mobile */
+        }
+
+        .about-content {
+          flex-direction: column;
+        }
+        
+        .about-text {
+          padding-right: 0;
+          margin-bottom: 30px;
+        }
+
+        /* Adjust menu categories for mobile */
+        .menu-categories {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .menu-category {
+          margin: 8px 0; /* More vertical spacing */
+          width: 220px; /* Slightly wider */
+          text-align: center;
+          padding: 12px 20px; /* Slightly more padding */
+        }
+
+        .btn {
+          padding: 15px 35px;
+          font-size: 1.1rem;
+        }
+
+        .about,
+        .menu,
+        .gallery,
+        .reviews {
+          padding: 40px 0;
+        }
+        
+        footer {
+          padding: 40px 0 20px;
+        }
+      }
+
+      /* Tablets (768px to 991px) */
+      @media screen and (min-width: 768px) and (max-width: 991px) {
+        .nav-links {
+          display: flex !important; /* Ensure nav-links are shown and override mobile styles */
+          position: static;
+          width: auto;
+          height: auto;
+          background-color: transparent;
+          flex-direction: row;
+          padding-top: 0;
+        }
+        .nav-links li {
+            margin: 0 0 0 30px; /* Reset mobile margins */
+        }
+        .mobile-menu-btn {
+          display: none !important; /* Hide hamburger on tablets and up */
+        }
+
+        .menu-items,
+        .gallery-grid,
+        .reviews-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        /* .hero h1 { font-size: 3rem; } /* Covered by clamp */
+      }
+      
+      /* Large devices (desktops, 992px and up) - .nav-links already flex by default */
+       @media screen and (min-width: 992px) {
+         .mobile-menu-btn {
+           display: none !important; /* Explicitly hide on larger screens too */
+         }
+       }
+
+
+      /* Extra Large devices (large desktops, 1200px and up) */
+      @media screen and (min-width: 1200px) {
+        .container {
+          max-width: 1400px; /* Or your desired max width */
+        }
+        
+        .menu-items,
+        .gallery-grid,
+        .reviews-container {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">Warkop<span>21</span></div>
+          <button class="mobile-menu-btn" aria-label="Toggle Menu" aria-expanded="false">
+            &#9776; </button>
+          <ul class="nav-links">
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+            <li><a href="#reviews">Ulasan</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>Warkop<span>21</span></h1>
+      <p>Berbagai Rasa, Satu Jiwa</p>
+      <a href="#menu" class="btn">Lihat Menu</a>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">Tentang Kami</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              Warkop21 adalah tempat nongkrong cozy buat kalian yang mencari spot ramah kantong yang bernuansa menghibur juga.
+            </p>
+            <p>
+              Nikmatilah nuansa ngopi bareng orang-orang terdekatmu, atau nikmati waktu sendiri ditemani secangkir kopi. Semua di Warkop21
+            </p>
+            <a href="#menu" class="btn">Eksplor Menu</a>
+          </div>
+          <div class="about-image">
+            <img src="./images/galeri/suasanawarkop.jpg" alt="Suasana Warkop21" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="menu">
+      <div class="container">
+        <h2 class="section-title">Menu Kami</h2>
+        <div class="menu-categories">
+          <div class="menu-category active" data-category="all">Semua</div>
+          <div class="menu-category" data-category="minuman">Minuman</div>
+          <div class="menu-category" data-category="makanan">Makanan</div>
+        </div>
+        <div class="menu-items" id="menuItems"></div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+      <div class="container">
+        <h2 class="section-title">Galeri</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="./images/galeri/suasanawarkop.jpg" alt="Suasana Warkop" />
+            <div class="gallery-caption">
+              <h3>Suasana Nyaman</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="./images/galeri/menuspesial.jpg" alt="Menu Special" />
+            <div class="gallery-caption">
+              <h3>Menu Special</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="./images/galeri/arean.jpg" alt="Area Nongkrong" />
+            <div class="gallery-caption">
+              <h3>Area Nongkrong</h3>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="./images/galeri/sajian.jpg" alt="Sajian Makanan" />
+            <div class="gallery-caption">
+              <h3>Sajian Makanan</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="reviews">
+      <div class="container">
+        <h2 class="section-title">Ulasan Pelanggan</h2>
+        <div class="reviews-container" id="reviewsContainer"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-container">
+          <div class="footer-section">
+            <h3>Warkop21</h3>
+            <p>Berbagai Rasa, Satu Jiwa</p>
+          </div>
+          <div class="footer-section">
+            <h3>Kontak</h3>
+            <p>Bekasi Utara</p>
+            <p>Telp: +62 858-8158-2774</p>
+            <p>Email: info@warkop21.id</p>
+          </div>
+          <div class="footer-section">
+            <h3>Jam Buka</h3>
+            <p>Senin - Jumat: 10:00 - 23:00</p>
+            <p>Sabtu - Minggu: 09:00 - 24:00</p>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 Warkop21. Hak Cipta Dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="scroll-top">↑</div>
+
+    <script>
+      // const menuData = { ... }; // Data menu akan di-fetch dari menu-data.json
+
+      // Data ulasan statis SEKARANG DIDEFINISIKAN DI 'data ulasan.js'
+      // const reviewsData = [ ... ]; // DIHAPUS DARI SINI
+
+      const menuGroups = {
+        "indomie": {
+          title: "Indomie",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "makanan"
+        },
+        "kopi": {
+          title: "Kopi",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "minuman"
+        },
+        "teh": {
+          title: "Teh",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "minuman"
+        },
+        "roti": {
+          title: "Roti Bakar",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "makanan"
+        },
+        "coklat": {
+          title: "Coklat",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "minuman"
+        },
+        "nasi": {
+          title: "Nasi Goreng",
+          image: "https://via.placeholder.com/400x300", // Ganti dengan path gambar yang sesuai
+          category: "makanan"
+        }
+      };
+
+      async function loadMenu() {
+        const container = document.getElementById("menuItems");
+        container.innerHTML = '<div class="loading" style="text-align:center; padding: 20px;">Memuat menu...</div>';
+
+        try {
+          const response = await fetch("menu-data.json"); // Fetch the JSON file
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const menuData = await response.json();
+
+          container.innerHTML = "";
+
+          const groupedItems = {};
+          const ungroupedItems = [];
+
+          // Gabungkan makanan dan minuman untuk diproses bersama
+          const allItems = [...(menuData.minuman || []), ...(menuData.makanan || [])];
+
+          allItems.forEach(item => {
+            if (item.group && menuGroups[item.group]) { // Pastikan grup ada di menuGroups
+              if (!groupedItems[item.group]) {
+                groupedItems[item.group] = [];
+              }
+              groupedItems[item.group].push(item);
+            } else {
+              ungroupedItems.push(item);
+            }
+          });
+          
+          for (const groupKey in groupedItems) {
+            if (groupedItems[groupKey].length > 0) { // Cek apakah ada item di grup
+              const groupInfo = menuGroups[groupKey]; // Info grup dari menuGroups (termasuk kategori)
+              const itemsInGroup = groupedItems[groupKey];
+              
+              const groupHTML = `
+                <div class="menu-group" data-category="${groupInfo.category}">
+                  <div class="menu-group-header">
+                    <h3>${groupInfo.title}</h3>
+                    <span class="dropdown-arrow">▼</span>
+                  </div>
+                  <div class="menu-group-content">
+                    ${itemsInGroup.map(item => `
+                      <div class="submenu-item">
+                        <img src="${item.image}" alt="${item.name}" />
+                        <div class="submenu-item-info">
+                          <h4>${item.name}</h4>
+                          <p>${item.price}</p>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+              container.insertAdjacentHTML("beforeend", groupHTML);
+            }
+          }
+
+          ungroupedItems.forEach(item => {
+            renderRegularMenuItem(container, item);
+          });
+
+          setupDropdownListeners();
+          setupMenuCategoryListeners(); 
+          filterMenu('all'); // Tampilkan semua item secara default setelah memuat
+        } catch (error) {
+          console.error("Gagal memuat menu:", error);
+          container.innerHTML = '<div class="error" style="text-align:center; padding: 20px; color: red;">Maaf, gagal memuat menu. Silakan coba lagi nanti.</div>';
+        }
+      }
+
+      function renderRegularMenuItem(container, item) {
+        const itemHTML = `
+          <div class="menu-item" data-category="${item.category}">
+            <img src="${item.image}" alt="${item.name}" />
+            <div class="menu-item-info">
+              <h3>${item.name}</h3>
+              <p>${item.price}</p>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML("beforeend", itemHTML);
+      }
+
+      function loadReviews() {
+        const container = document.getElementById("reviewsContainer");
+        container.innerHTML = ""; 
+
+        // Pastikan reviewsData sudah terdefinisi (dari data ulasan.js)
+        if (typeof reviewsData !== 'undefined' && reviewsData.length > 0) {
+            reviewsData.forEach((review) => {
+            const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+            const reviewHTML = `
+                <div class="review">
+                    <div class="review-rating">${stars}</div>
+                    <p>"${review.comment}"</p>
+                    <div class="review-meta">
+                        <span class="review-author">${review.name}</span>
+                        <span class="review-date">${review.date || ""}</span>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML("beforeend", reviewHTML);
+            });
+        } else {
+            container.innerHTML = '<p style="text-align:center; padding: 20px;">Belum ada ulasan.</p>';
+            console.warn("reviewsData is not defined or is empty. Make sure 'data ulasan.js' is loaded correctly and contains data.");
+        }
+      }
+
+      function setupDropdownListeners() {
+        const dropdownHeaders = document.querySelectorAll('.menu-group-header');
+        
+        dropdownHeaders.forEach(header => {
+          header.addEventListener('click', () => {
+            const parentGroup = header.parentElement;
+            parentGroup.classList.toggle('active');
+          });
+        });
+      }
+
+      function filterMenu(category) {
+        const items = document.querySelectorAll(".menu-item, .menu-group");
+        const categories = document.querySelectorAll(".menu-category");
+
+        categories.forEach((cat) => {
+          cat.classList.remove("active");
+          if (cat.dataset.category === category) {
+            cat.classList.add("active");
+          }
+        });
+
+        items.forEach((item) => {
+          item.style.display = category === "all" || item.dataset.category === category ? "block" : "none";
+        });
+      }
+      
+      function setupMenuCategoryListeners() {
+        const categories = document.querySelectorAll(".menu-category");
+        categories.forEach((category) => {
+          // Hapus event listener lama untuk menghindari duplikasi jika fungsi ini dipanggil lagi
+          const newCategory = category.cloneNode(true);
+          category.parentNode.replaceChild(newCategory, category);
+          
+          newCategory.addEventListener('click', (event) => {
+            filterMenu(event.currentTarget.dataset.category);
+          });
+        });
+      }
+
+      function setupScrollToTop() {
+        const scrollTopBtn = document.querySelector(".scroll-top");
+
+        window.addEventListener("scroll", () => {
+          if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add("active");
+          } else {
+            scrollTopBtn.classList.remove("active");
+          }
+        });
+
+        scrollTopBtn.addEventListener("click", () => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
+      }
+
+      function setupMobileMenu() {
+        const menuBtn = document.querySelector(".mobile-menu-btn");
+        const navLinks = document.querySelector(".nav-links");
+
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener("click", () => {
+            const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true' || false;
+            menuBtn.setAttribute('aria-expanded', !isExpanded);
+            navLinks.classList.toggle("active");
+            });
+
+            // Close menu when a link is clicked (optional)
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        menuBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadMenu(); 
+        loadReviews();
+        // setupMenuCategoryListeners(); // Sekarang dipanggil di dalam loadMenu setelah item dimuat
+        setupScrollToTop();
+        setupMobileMenu();
+      });
+    </script>
+  </body>
+</html>

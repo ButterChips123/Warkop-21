@@ -1,0 +1,146 @@
+{
+  "minuman": [
+    {
+      "name": "Kopi Hitam",
+      "price": "Rp10.000",
+      "image": "./images/minuman/kopi hitam.jpg",
+      "category": "minuman",
+      "group": "kopi"
+    },
+    {
+      "name": "Kopi Susu",
+      "price": "Rp13.000",
+      "image": "./images/minuman/kopi susu.jpg",
+      "category": "minuman",
+      "group": "kopi"
+    },
+    {
+      "name": "Teh Manis",
+      "price": "Rp6.000",
+      "image": "./images/minuman/teh manis.jpg",
+      "category": "minuman",
+      "group": "teh"
+    },
+    {
+      "name": "Teh Tawar",
+      "price": "Rp5.000",
+      "image": "./images/minuman/teh tawar.jpg",
+      "category": "minuman",
+      "group": "teh"
+    },
+    {
+      "name": "Teh Tarik",
+      "price": "Rp10.000",
+      "image": "./images/minuman/teh tarik.jpg",
+      "category": "minuman",
+      "group": "teh"
+    },
+    {
+      "name": "Es Jeruk",
+      "price": "Rp7.000",
+      "image": "./images/minuman/es jeruk.jpg",
+      "category": "minuman",
+      "group": null
+    },
+    {
+      "name": "Coklat Panas",
+      "price": "Rp10.000",
+      "image": "./images/minuman/coklat panas.jpg",
+      "category": "minuman",
+      "group": "coklat"
+    },
+    {
+      "name": "Es Coklat Susu",
+      "price": "Rp12.000",
+      "image": "./images/minuman/es coklat.jpg",
+      "category": "minuman",
+      "group": "coklat"
+    },
+    {
+      "name": "Es Coklat Matcha",
+      "price": "Rp15.000",
+      "image": "./images/minuman/es coklat matcha.jpg",
+      "category": "minuman",
+      "group": "coklat"
+    }
+  ],
+  "makanan": [
+    {
+      "name": "Indomie Telor",
+      "price": "Rp12.000",
+      "image": "./images/makanan/Indomie Telor.jpg",
+      "category": "makanan",
+      "group": "indomie"
+    },
+    {
+      "name": "Indomie Telor Kornet",
+      "price": "Rp18.000",
+      "image": "./images/makanan/indomie telor kornet.jpeg",
+      "category": "makanan",
+      "group": "indomie"
+    },
+    {
+      "name": "Indomie Goreng Spesial",
+      "price": "Rp20.000",
+      "image": "./images/makanan/indomie spesial.jpg",
+      "category": "makanan",
+      "group": "indomie"
+    },
+    {
+      "name": "Nasi Goreng Telor",
+      "price": "Rp13.000",
+      "image": "./images/makanan/nasi goreng telor.jpg",
+      "category": "makanan",
+      "group": "nasi"
+    },
+    {
+      "name": "Nasi Goreng Ayam",
+      "price": "Rp17.000",
+      "image": "./images/makanan/Nasi Goreng Ayam.jpg",
+      "category": "makanan",
+      "group": "nasi"
+    },
+    {
+      "name": "Nasi Goreng Spesial",
+      "price": "Rp20.000",
+      "image": "./images/makanan/nasi goreng spesial.jpg",
+      "category": "makanan",
+      "group": "nasi"
+    },
+    {
+      "name": "Roti Bakar Susu Keju",
+      "price": "Rp15.000",
+      "image": "./images/makanan/roti bakar susu keju.jpg",
+      "category": "makanan",
+      "group": "roti"
+    },
+    {
+      "name": "Roti Bakar Coklat Keju",
+      "price": "Rp18.000",
+      "image": "./images/makanan/roti bakar coklat keju.jpg",
+      "category": "makanan",
+      "group": "roti"
+    },
+    {
+      "name": "Roti Bakar Pisang Coklat Keju",
+      "price": "Rp22.000",
+      "image": "./images/makanan/roti bakar pisang coklat keju.jpeg",
+      "category": "makanan",
+      "group": "roti"
+    },
+    {
+      "name": "Sosis Bakar",
+      "price": "Rp10.000",
+      "image": "./images/makanan/sosis bakar.jpg",
+      "category": "makanan",
+      "group": null
+    },
+    {
+      "name": "Baso Bakar",
+      "price": "Rp10.000",
+      "image": "./images/makanan/bakso bakar.jpg",
+      "category": "makanan",
+      "group": null
+    }
+  ]
+}
